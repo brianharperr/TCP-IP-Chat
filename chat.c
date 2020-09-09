@@ -33,6 +33,7 @@ int main(int argc, char* argv[])
 	WSADATA wsa;
 	SOCKET s, new_socket;
 	struct sockaddr_in server, client;
+	struct addrinfo clinfo;
 	char message[255];
 	char ip[INET_ADDRSTRLEN] = { 0 };
 	int c = sizeof(struct sockaddr_in);
@@ -108,8 +109,9 @@ int main(int argc, char* argv[])
 	}//Client Flow
 	else {
 
-		//inet_pton(AF_INET,ip,&server.sin_addr);
-		getaddrinfo(ip,NULL,0,&server);
+		//inet_pton(AF_INET,ip,&server.sin_addr); Deprecated
+		getaddrinfo(ip,NULL,0,&clinfo);
+		server.sin_addr.s_addr = clinfo.ai_addr;
 
 		if (connect(s,(struct sockaddr *)&server, sizeof(server)) < 0) {
 			printf("Connection Error: %d", WSAGetLastError());

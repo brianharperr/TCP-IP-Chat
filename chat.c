@@ -1,6 +1,12 @@
 /*
+	Chat.c  - TCP/IP Chat application with Host/Client functionality.
+	Author - Brian Harper
+	Version 1.0
 	Live TCP/IP Server+Client on port 8888
 */
+
+#define _WIN32_WINNT 0x0501
+
 #include<io.h>
 #include<stdio.h>
 #include<winsock2.h>
@@ -68,7 +74,10 @@ int main(int argc, char* argv[])
 		}
 
 		printf("Bind done @ ");
-		inet_ntop(AF_INET,&(server.sin_addr), ip, INET_ADDRSTRLEN);
+
+		//inet_ntop(AF_INET,&(server.sin_addr), ip, INET_ADDRSTRLEN);  
+		getnameinfo((struct sockaddr *)&server, sizeof(struct sockaddr), ip, sizeof(ip), NULL, 0, 0);
+
 		printf("%s\n", ip);
 
 		//Listen to incoming connections
@@ -100,8 +109,9 @@ int main(int argc, char* argv[])
 	}//Client Flow
 	else {
 
-		//Client Functionality
-		inet_pton(AF_INET,ip,&server.sin_addr);
+		//inet_pton(AF_INET,ip,&server.sin_addr);
+		getaddrinfo(ip,NULL,0,&server.sin_addr);
+
 		if (connect(s,(struct sockaddr *)&server, sizeof(server)) < 0) {
 			printf("Connection Error: %d", WSAGetLastError());
 			closesocket(s);

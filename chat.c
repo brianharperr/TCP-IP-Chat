@@ -104,7 +104,6 @@ int main(int argc, char* argv[])
 		closesocket(new_socket);
 		closesocket(s);
 		WSACleanup();
-		free(message);
 
 	}//Client Flow
 	else {
@@ -131,7 +130,6 @@ int main(int argc, char* argv[])
 
 	}
 	printf("Shutting down...");
-	free(ip);
 	closesocket(s);
 	WSACleanup();
 

@@ -109,7 +109,7 @@ int main(int argc, char* argv[])
 	else {
 
 		//inet_pton(AF_INET,ip,&server.sin_addr);
-		getaddrinfo(ip,NULL,0,&server.sin_addr);
+		getaddrinfo(ip,NULL,0,&server);
 
 		if (connect(s,(struct sockaddr *)&server, sizeof(server)) < 0) {
 			printf("Connection Error: %d", WSAGetLastError());
